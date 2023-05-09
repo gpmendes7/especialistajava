@@ -90,17 +90,38 @@ public class Principal1 {
 //        System.out.println(Arrays.toString(numerosJogoAtual));
 //        System.out.println(Arrays.toString(numerosNovoJogo));
 
-        ArrayList<String> alunos = new ArrayList<>();
-        alunos.add("João");
-        alunos.add("Maria");
+//        ArrayList<String> alunos = new ArrayList<>();
+//        alunos.add("João");
+//        alunos.add("Maria");
 
 //        for (int i = 0; i < alunos.size(); i++) {
 //            String aluno = alunos.get(i);
 //            System.out.println(aluno);
 //        }
 
-        for (String aluno : alunos) {
-            System.out.println(aluno);
+//        for (String aluno : alunos) {
+//            System.out.println(aluno);
+//        }
+
+//        String[][] cidades = new String[3][3];
+//
+//        cidades[0][0] = "Uberlândia";
+//        cidades[0][1] = "Uberaba";
+//        cidades[0][1] = "Belo Horizonte";
+//
+//        cidades[1][0] = "São Paulo";
+//        cidades[1][1] = "Ribeirão Preto";
+//
+//        cidades[2][0] = "Fortaleza";
+
+        System.out.println(Arrays.toString(args));
+
+        if (args.length <= 1) {
+            System.out.printf("Use:: java %s [pt|en] [seu nome]", Principal1.class.getName());
+        } else if (args[0].equals("en")) {
+            System.out.printf("Hello, %s!%n", args[1]);
+        } else if (args[0].equals("pt")) {
+            System.out.printf("Olá, %s!%n", args[1]);
         }
     }
 }
