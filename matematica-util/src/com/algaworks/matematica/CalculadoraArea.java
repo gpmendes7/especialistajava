@@ -4,6 +4,10 @@ public class CalculadoraArea {
 
     public static final double PI = 3.14159;
 
+    private CalculadoraArea() {
+
+    }
+
     public static double calcularAreaQuadrado(double medidoDoLado) {
         return medidoDoLado * medidoDoLado;
     }
