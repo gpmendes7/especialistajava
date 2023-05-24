@@ -2,23 +2,17 @@ package com.algaworks.banco;
 
 public class Conta {
 
-    public static final int NORMAL = 0;
-    public static final int INVESTIMENTO = 1;
-    public static final int ESPECIAL = 2;
-
     private Titular titular;
     private int agencia;
     private int numero;
     private double saldo;
 
-    private int tipo = NORMAL;
+    public Conta() {
+    }
 
-    // conta investimento
-    private double valorTotalRendimentos;
-
-    // conta especial
-    private double tarifaMensal;
-    private double limiteChequeEspecial;
+    public Conta(double saldoInicial) {
+        this.saldo = saldoInicial;
+    }
 
     public Titular getTitular() {
         return titular;
@@ -44,64 +38,17 @@ public class Conta {
         this.numero = numero;
     }
 
+    protected void setSaldo(double saldo) {
+        this.saldo = saldo;
+    }
+
     public double getSaldo() {
         return saldo;
     }
 
-    public double getSaldoDisponivel() {
-        return getSaldo() + getLimiteChequeEspecial();
-    }
-
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
-
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        if(tipo != NORMAL && tipo != INVESTIMENTO && tipo != ESPECIAL) {
-            throw new IllegalArgumentException("Tipo inválido: " + tipo);
-        }
-
-        this.tipo = tipo;
-
-        if(this.tipo != ESPECIAL) {
-            this.limiteChequeEspecial = 0;
-        }
-    }
-
-    public double getValorTotalRendimentos() {
-        return valorTotalRendimentos;
-    }
-
-    public double getTarifaMensal() {
-        return tarifaMensal;
-    }
-
-    public void setTarifaMensal(double tarifaMensal) {
-        this.tarifaMensal = tarifaMensal;
-    }
-
-    public double getLimiteChequeEspecial() {
-        return limiteChequeEspecial;
-    }
-
-    public void setLimiteChequeEspecial(double limiteChequeEspecial) {
-        if (getTipo() != ESPECIAL) {
-            throw new RuntimeException("Este tipo de conta não permite limite de cheque especial");
-        }
-        this.limiteChequeEspecial = limiteChequeEspecial;
-    }
-
-    public void creditarRendimentos(double percentualJuros) {
-        if (getTipo() == INVESTIMENTO || getTipo() == ESPECIAL) {
-            double valorRendimentos = getSaldo() * percentualJuros / 100;
-            this.valorTotalRendimentos += valorRendimentos;
-            depositar(valorRendimentos);
-        } else {
-            throw new RuntimeException("Não pode creditar rendimentos neste tipo de conta");
+    protected void validarSaldoParaSaque(double valorSaque) {
+        if (getSaldo() < valorSaque) {
+            throw new RuntimeException("Saldo insuficiente para saque");
         }
     }
 
@@ -110,9 +57,7 @@ public class Conta {
             throw new IllegalArgumentException("Valor do saque deve ser maior que 0");
         }
 
-        if (getSaldoDisponivel() < valorSaque) {
-            throw new RuntimeException("Saldo insuficiente para saque");
-        }
+        validarSaldoParaSaque(valorSaque);
 
         saldo -= valorSaque;
     }
@@ -131,15 +76,6 @@ public class Conta {
         System.out.printf("Conta: %d%n", getNumero());
         System.out.printf("Titular: %s%n", getTitular().getNome());
         System.out.printf("Saldo: %.2f%n", getSaldo());
-        System.out.printf("Saldo disponível: %.2f%n", getSaldoDisponivel());
-    }
-
-    public void debitarTarifaMensal() {
-        if (getTipo() == ESPECIAL) {
-            sacar(getTarifaMensal());
-        } else {
-            throw new RuntimeException("Não pode debitar tarifa mensal neste tipo de conta");
-        }
     }
 
 }
