@@ -1,6 +1,6 @@
 import java.time.Instant;
 
-public class Principal {
+public class Principal1 {
     public static void main(String[] args) {
         Instant instante = Instant.now();
         System.out.println(instante);
